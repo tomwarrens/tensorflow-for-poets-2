@@ -28,6 +28,18 @@ should get:
 
 `noCar/`
 
+***File format to jpg:***
+
+I created a script *file_conversion.py* that converts any
+input format to desired output format (in this case .jpg). 
+
+It runs like this: 
+
+`python file_conversion.py (--directory) (--input_format=png) (--output_format=jpg)`
+
+All command line arguments have default values, for now
+the script converts the file if classes are Car and noCar, please feel free to change the code for any class you need. 
+
 
 ***Setting parameters for transfer learning:***
 

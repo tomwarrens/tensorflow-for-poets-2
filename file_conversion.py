@@ -1,5 +1,50 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
+import argparse
+import re
+import sys
+import os.path
 from PIL import Image
 
-im = Image.open("Ba_b_do8mag_c6_big.png")
-rgb_im = im.convert('RGB')
-rgb_im.save('colors.jpg')
+def conversion_with_pil(directory, input, output):
+    for file in os.listdir(directory):
+        if file.endswith("."+input+""):
+            img = Image.open(directory+"\\"+file)
+            filename = directory+"\\"+file[0:(len(file)-len(input)-1)]
+            img.save(filename.strip(), output)
+
+
+if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+          '--directory',
+          type=str,
+          default='\\tf_files\\dataset2',
+          help='Path to folders of images.'
+      )
+    parser.add_argument(
+          '--input_format',
+          type=str,
+          default='',
+          help='input format to parse'
+      )
+    parser.add_argument(
+          '--output_format',
+          type=str,
+          default='',
+          help='output format desired'
+      )
+
+    args = parser.parse_args()
+
+    input_format = args.input_format
+    output_format = args.output_format
+    input_direx = os.getcwd()
+    direx = args.directory
+
+    conversion_with_pil(input_direx+direx+'\\Cars', input_format, output_format)
+    conversion_with_pil(input_direx+direx+'\\noCars', input_format, output_format)
+
