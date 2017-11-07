@@ -12,8 +12,10 @@ def conversion_with_pil(directory, input, output):
     for file in os.listdir(directory):
         if file.endswith("."+input+""):
             img = Image.open(directory+"\\"+file)
+            if img.mode == 'RGBA':
+                img = img.convert('RGB')
             filename = directory+"\\"+file[0:(len(file)-len(input)-1)]
-            img.save(filename.strip(), output)
+            img.save(filename.strip()+'.jpg')
 
 
 if __name__ == '__main__':
@@ -22,7 +24,7 @@ if __name__ == '__main__':
     parser.add_argument(
           '--directory',
           type=str,
-          default='\\tf_files\\dataset2',
+          default='\\tf_files\\dataset',
           help='Path to folders of images.'
       )
     parser.add_argument(
@@ -45,6 +47,6 @@ if __name__ == '__main__':
     input_direx = os.getcwd()
     direx = args.directory
 
-    conversion_with_pil(input_direx+direx+'\\Cars', input_format, output_format)
-    conversion_with_pil(input_direx+direx+'\\noCars', input_format, output_format)
+    conversion_with_pil(input_direx+direx+'\\Car', input_format, output_format)
+    conversion_with_pil(input_direx+direx+'\\noCar', input_format, output_format)
 
