@@ -53,5 +53,6 @@ In the terminal
 * --flip_left_right = Whether to randomly flip half of the training images horizontally
 * --model_dir=tf_files/models/ = the directory where we find the network 
 
+In retrain.py you find all the parameters you can set. 
 
       
