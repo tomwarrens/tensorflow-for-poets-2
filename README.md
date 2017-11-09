@@ -45,6 +45,8 @@ the script converts the file if classes are Car and noCar, please feel free to c
 
 It's rather easy from now on. 
 
+**Training:**
+
 In the terminal 
 
 `python -m scripts.retrain \
@@ -67,4 +69,12 @@ In the terminal
 
 In retrain.py you find all the parameters you can set. 
 
-      
+**Testing:**
+
+In the terminal 
+
+`python -m scripts.label_image 
+--graph=tf_files/retrained_graph.pb 
+--image=tf_files/dataset/Car/trial.jpg
+--multiple_images=True
+--testing_directory=tf_files/testing_dataset`

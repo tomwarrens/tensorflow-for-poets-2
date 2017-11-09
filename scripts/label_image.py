@@ -19,6 +19,7 @@ from __future__ import print_function
 
 import argparse
 import sys
+import os
 
 import numpy as np
 import tensorflow as tf
@@ -78,7 +79,13 @@ if __name__ == "__main__":
   output_layer = "final_result"
 
   parser = argparse.ArgumentParser()
-  parser.add_argument("--image", help="image to be processed")
+  print('at least I got here')
+  parser.add_argument("--multiple_images", type=bool, help="flag for testing over multiple images",
+                      required=False, default=False)
+  print('did I get here?\n')
+  parser.add_argument("--testing_directory", help = "testing directory where we find the images",
+                      required=False)
+  parser.add_argument("--image", help="image to be processed", required=False)
   parser.add_argument("--graph", help="graph/model to be executed")
   parser.add_argument("--labels", help="name of file containing labels")
   parser.add_argument("--input_height", type=int, help="input height")
@@ -107,25 +114,55 @@ if __name__ == "__main__":
     input_layer = args.input_layer
   if args.output_layer:
     output_layer = args.output_layer
+  if args.testing_directory:
+    testing_directory = args.testing_directory
 
   graph = load_graph(model_file)
-  t = read_tensor_from_image_file(file_name,
-                                  input_height=input_height,
-                                  input_width=input_width,
-                                  input_mean=input_mean,
-                                  input_std=input_std)
+  if args.multiple_images:
+    for file in os.listdir(testing_directory):
+      filename= testing_directory+"\\"+file
+      print(filename)
+      t = read_tensor_from_image_file(filename,
+                                    input_height=input_height,
+                                    input_width=input_width,
+                                    input_mean=input_mean,
+                                    input_std=input_std)
 
-  input_name = "import/" + input_layer
-  output_name = "import/" + output_layer
-  input_operation = graph.get_operation_by_name(input_name);
-  output_operation = graph.get_operation_by_name(output_name);
+      input_name = "import/" + input_layer
+      output_name = "import/" + output_layer
+      input_operation = graph.get_operation_by_name(input_name);
+      output_operation = graph.get_operation_by_name(output_name);
 
-  with tf.Session(graph=graph) as sess:
-    results = sess.run(output_operation.outputs[0],
-                      {input_operation.outputs[0]: t})
-  results = np.squeeze(results)
+      with tf.Session(graph=graph) as sess:
+        results = sess.run(output_operation.outputs[0],
+                        {input_operation.outputs[0]: t})
+      results = np.squeeze(results)
 
-  top_k = results.argsort()[-5:][::-1]
-  labels = load_labels(label_file)
-  for i in top_k:
-    print(labels[i], results[i])
+      print(results)
+      top_k = results.argsort()[-5:][::-1]
+      labels = load_labels(label_file)
+      for i in top_k:
+        print(labels[i], results[i])
+
+  else:
+    t = read_tensor_from_image_file(file_name,
+                                    input_height=input_height,
+                                    input_width=input_width,
+                                    input_mean=input_mean,
+                                    input_std=input_std)
+
+    input_name = "import/" + input_layer
+    output_name = "import/" + output_layer
+    input_operation = graph.get_operation_by_name(input_name);
+    output_operation = graph.get_operation_by_name(output_name);
+
+    with tf.Session(graph=graph) as sess:
+      results = sess.run(output_operation.outputs[0],
+                         {input_operation.outputs[0]: t})
+    results = np.squeeze(results)
+
+    print(results)
+    top_k = results.argsort()[-5:][::-1]
+    labels = load_labels(label_file)
+    for i in top_k:
+      print(labels[i], results[i])
