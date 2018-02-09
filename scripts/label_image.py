@@ -120,7 +120,7 @@ if __name__ == "__main__":
   graph = load_graph(model_file)
   if args.multiple_images:
     for file in os.listdir(testing_directory):
-      filename= testing_directory+"\\"+file
+      filename= testing_directory+"/"+file
       print(filename)
       t = read_tensor_from_image_file(filename,
                                     input_height=input_height,

@@ -11,11 +11,14 @@ from PIL import Image
 def conversion_with_pil(directory, input, output):
     for file in os.listdir(directory):
         if file.endswith("."+input+""):
-            img = Image.open(directory+"\\"+file)
+            img = Image.open(directory+file)
             if img.mode == 'RGBA':
                 img = img.convert('RGB')
-            filename = directory+"\\"+file[0:(len(file)-len(input)-1)]
-            img.save(filename.strip()+'.jpg')
+            filename = directory+file[0:(len(file)-len(input)-1)]
+            img.save(filename.strip()+'.'+ input_format)
+            os.remove(filename.strip()+'.' + output_format)   #di default settato png --> castomizzabile 
+
+
 
 
 if __name__ == '__main__':
@@ -24,19 +27,19 @@ if __name__ == '__main__':
     parser.add_argument(
           '--directory',
           type=str,
-          default='\\tf_files\\dataset',
+          default='/tf_files/dataset',
           help='Path to folders of images.'
       )
     parser.add_argument(
           '--input_format',
           type=str,
-          default='',
+          default='png',
           help='input format to parse'
       )
     parser.add_argument(
           '--output_format',
           type=str,
-          default='',
+          default='jpg',
           help='output format desired'
       )
 
@@ -47,6 +50,9 @@ if __name__ == '__main__':
     input_direx = os.getcwd()
     direx = args.directory
 
-    conversion_with_pil(input_direx+direx+'\\Car', input_format, output_format)
-    conversion_with_pil(input_direx+direx+'\\noCar', input_format, output_format)
+    conversion_with_pil(input_direx+direx+'/class_1/', input_format, output_format)
+    conversion_with_pil(input_direx+direx+'/class_2/', input_format, output_format)
+    conversion_with_pil(input_direx+direx+'/class_3/', input_format, output_format)
+
+
 
