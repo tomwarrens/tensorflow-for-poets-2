@@ -23,13 +23,19 @@ First: install TensorFlow for python3 [windows](https://www.tensorflow.org/insta
         a) `tf_files/`
         b) `scripts/`
         c) **file_convertion.py**
+        d)Documentatu
         
 1) Put the images divided into subfolders in the directory `tf_files/dataset/`
 *Be Careful* the label's name will be the same as the subufolders that contained into the direcory `dataset/`
 
 2) The model works with **jpg** images, if yours are not into desired format you should convert by running **file_convertion.py**. Be careful to change the name of the directories where are situated the pics inside the scripts  file_convertion.py.
 
-    `python file_conversion.py (--directory) (--input_format=png) (--output_format=jpg)`
+    `python file_conversion.py (--dir) (--input_format=png) (--output_format=jpg)`
+    
+    Automatically the script convert all images inside the subfolder specified into *dir* option.
+    If you need to convert a single folder easily is necessary to add the argoument *one_folder* = True
+    
+     `python file_conversion.py --dir=my/path/ --input_format=png --output_format=jpg --one_folder=True`
     
 
 3) Check inside the folder `tf_files/` you should have the following direcotries:
@@ -65,7 +71,9 @@ First: install TensorFlow for python3 [windows](https://www.tensorflow.org/insta
     --image_dir=tf_files/dataset
     --print_misclassified_test_images`
     
-5) **It's done!**
+5) **It's done! You have your own model!**
+
+
     
 6) **Testing**
     You could test just a pic, by running (from root terminal)
